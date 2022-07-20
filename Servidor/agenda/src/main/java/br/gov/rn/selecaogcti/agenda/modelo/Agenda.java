@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class Agenda {
@@ -19,7 +18,7 @@ public class Agenda {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne @NotNull
+	@OneToOne
 	private Usuario usuario;
 	
 	@OneToMany(mappedBy = "agenda")

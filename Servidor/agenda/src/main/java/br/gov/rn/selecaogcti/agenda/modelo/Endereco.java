@@ -7,9 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class Endereco {
@@ -17,22 +14,12 @@ public class Endereco {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne @NotNull
+	@ManyToOne
 	private Contato contato;
-	
-	@NotNull @Length(max = 255)
 	private String rua;
-	
-	@NotNull @Length(max = 255)
 	private String bairro;
-	
-	@NotNull
 	private Integer numero;
-	
-	@NotNull @Length(min = 2, max = 2)
 	private String uf;
-	
-	@NotNull @Length(min = 8, max = 8)
 	private String cep;
 	
 	public Endereco() {
