@@ -11,18 +11,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Agenda {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@OneToOne
+	
+	@OneToOne @NotNull @NotEmpty
 	private Usuario usuario;
+	
 	@OneToMany(mappedBy = "agenda")
 	private List<Contato> contatos = new ArrayList<>();
+	
 	private LocalDateTime data_cadastro = LocalDateTime.now();
 	
 	public Agenda() {
