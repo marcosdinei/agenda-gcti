@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -22,25 +21,25 @@ public class Contato {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne @NotNull @NotEmpty
+	@ManyToOne @NotNull
 	private Agenda agenda;
 	
-	@NotNull @NotEmpty @Length(max = 255)
+	@NotNull @Length(max = 255)
 	private String nome;
 	
-	@NotNull @NotEmpty @Length(min = 11, max = 11)
+	@NotNull @Length(min = 11, max = 11)
 	private String telefone;
 	
-	@NotNull @NotEmpty
+	@NotNull
 	private boolean whatsapp;
 	
-	@NotNull @NotEmpty @Length(max = 50)
+	@NotNull @Length(max = 50)
 	private String email;
 	
 	@OneToMany(mappedBy = "contato")
 	private List<Endereco> enderecos = new ArrayList<>();
 	
-	@NotNull @NotEmpty
+	@NotNull
 	private boolean ativo = true;
 	
 	private LocalDateTime data_cadastro = LocalDateTime.now();

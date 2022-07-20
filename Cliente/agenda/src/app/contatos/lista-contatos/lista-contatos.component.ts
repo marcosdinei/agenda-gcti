@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { switchMap, Observable } from 'rxjs';
 
 import { AgendaService } from './../../agenda/agenda.service';
 import { UsuarioService } from './../../autenticacao/usuario/usuario.service';
@@ -13,18 +14,20 @@ import { ContatosService } from './../contatos.service';
 export class ListaContatosComponent implements OnInit {
 
   @Input()
-  contatos!: Contatos;
-
-  private usuario_id!: string;
+  contatos$!: Observable<Contatos>;
 
   constructor(private usuarioService: UsuarioService, private agendaService: AgendaService, private contatosService: ContatosService) { }
 
   ngOnInit(): void {
-    this.usuario_id = this.usuarioService.retornaIdUsuarioLogado();
-      this.agendaService.retornaIdAgenda(parseInt(this.usuario_id)).subscribe((agenda_id) => {
-        this.contatosService.listaDaAgenda(agenda_id).subscribe((contatos) => {
-          this.contatos = contatos;
-        });
-      });
+    this.contatos$ = this.usuarioService.retornaUsuario().pipe(
+      switchMap((usuario) => {
+        const usuario_id = usuario.id ?? 0;
+        return this.agendaService.retornaIdAgenda(usuario_id).pipe(
+          switchMap((agenda_id) => {
+            return this.contatosService.listaDaAgenda(agenda_id);
+          })
+        );
+      })
+    );
   }
 }

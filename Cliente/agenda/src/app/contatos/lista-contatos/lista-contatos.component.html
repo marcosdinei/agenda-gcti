@@ -1,20 +1,22 @@
-<h1 class="title" *ngIf="!contatos.length">Nenhum contato encontrado</h1>
-
 <div class="column is-one-third is-offset-one-third">
   <div class="box">
 
-    <table class="table is-striped is-hoverable is-fullwidth">
-      <thead>
-        <th>Nome</th>
-        <th>Telefone</th>
-      </thead>
-      <tbody>
-        <tr *ngFor="let contato of contatos">
-          <td>{{ contato.nome }}</td>
-          <td>{{ contato.telefone }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div *ngIf="contatos$ | async as contatos">
+      <h1 class="title">Nenhum contato encontrado</h1>
+
+      <table class="table is-striped is-hoverable is-fullwidth">
+        <thead>
+          <th>Nome</th>
+          <th>Telefone</th>
+        </thead>
+        <tbody *ngIf="contatos.length > 0; else loading">
+          <tr *ngFor="let contato of contatos">
+            <td>{{ contato.nome }}</td>
+            <td>{{ contato.telefone }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <ng-template #loading>
       <progress class="progress is-large is-info" max="100">60%</progress>

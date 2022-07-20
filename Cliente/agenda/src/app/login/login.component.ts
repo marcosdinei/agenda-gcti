@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   usuario = '';
   senha = '';
 
-  constructor(private usuarioService: UsuarioService, private autenticacaoService: AutenticacaoService, private router: Router) { }
+  constructor(private autenticacaoService: AutenticacaoService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -23,9 +23,6 @@ export class LoginComponent implements OnInit {
     this.autenticacaoService.autenticar(this.usuario, this.senha).subscribe(
       {
         next: (res) => {
-          const jsonBody = JSON.stringify(res.body);
-          let id_usuario = parseInt(jsonBody?.charAt(6));
-          this.usuarioService.retornaUsuarioPeloId(id_usuario);
           this.router.navigate(['contatos'])
         },
         error: () => {

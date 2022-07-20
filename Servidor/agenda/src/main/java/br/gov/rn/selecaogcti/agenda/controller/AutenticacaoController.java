@@ -1,5 +1,6 @@
 package br.gov.rn.selecaogcti.agenda.controller;
 
+import java.net.URI;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.gov.rn.selecaogcti.agenda.config.security.TokenService;
 import br.gov.rn.selecaogcti.agenda.controller.dto.TokenDto;
@@ -39,7 +41,7 @@ public class AutenticacaoController {
 	private AgendaRepository agendaRepository;
 	
 	@PostMapping
-	public ResponseEntity<TokenDto> autenticar(@RequestBody @Valid LoginForm loginForm) {
+	public ResponseEntity<TokenDto> autenticar(@RequestBody @Valid LoginForm loginForm, UriComponentsBuilder uriBuilder) {
 		
 		UsernamePasswordAuthenticationToken dadosLogin = loginForm.converter();
 		
@@ -50,12 +52,14 @@ public class AutenticacaoController {
 			Long idUsuario = tokenService.getIdUsuario(token);
 			Usuario usuario = usuarioRepository.findById(idUsuario).get();
 			Optional<Agenda> agenda = agendaRepository.findByUsuario(usuario);
+			Agenda novaAgenda = new Agenda();
 			if (!agenda.isPresent()) {
-				Agenda novaAgenda = new Agenda(usuario);
+				novaAgenda = new Agenda(usuario);
 				agendaRepository.save(novaAgenda);
 			}
 			
-			return ResponseEntity.ok(new TokenDto(token, "Bearer"));
+			URI uri = uriBuilder.path("/contatos/{agenda_id}").buildAndExpand(novaAgenda.getId()).toUri();
+			return ResponseEntity.created(uri).body(new TokenDto(token, "Bearer"));
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().build();
 		}

@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -23,13 +22,13 @@ public class Usuario implements UserDetails {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull @NotEmpty @Length(max = 50)
+	@NotNull @Length(max = 50)
 	private String login;
 	
-	@NotNull @NotEmpty @Length(max = 50)
+	@NotNull @Length(max = 50)
 	private String password;
 	
-	@NotNull @NotEmpty @Length(max = 50)
+	@NotNull @Length(max = 50)
 	private String email;
 	
 	private LocalDateTime data_cadastro = LocalDateTime.now();

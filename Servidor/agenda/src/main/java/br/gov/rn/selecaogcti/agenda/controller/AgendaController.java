@@ -91,7 +91,7 @@ public class AgendaController {
 		
 		contatoRepository.save(contato);
 		
-		URI uri = uriBuilder.path("/agenda/{id}").buildAndExpand(contato.getId()).toUri();
+		URI uri = uriBuilder.path("/contatos/{agenda_id}/{id}").buildAndExpand(contato.getId()).toUri();
 		return ResponseEntity.created(uri).body(new ContatoDto(contato));
 	}
 	

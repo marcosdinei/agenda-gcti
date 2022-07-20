@@ -14,7 +14,7 @@ export class CabecalhoComponent {
   faUserCircle = faUserCircle;
   faAdressBook = faAddressBook;
 
-  //usuario$ = this.usuarioService.retornaUsuario();
+  usuario$ = this.usuarioService.retornaUsuario();
 
   constructor(private usuarioService: UsuarioService, private router: Router) { }
 
