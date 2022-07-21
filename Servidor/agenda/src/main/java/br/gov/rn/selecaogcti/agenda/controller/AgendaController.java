@@ -1,6 +1,5 @@
 package br.gov.rn.selecaogcti.agenda.controller;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,8 +46,20 @@ public class AgendaController {
 	@Autowired
 	private ContatoRepository contatoRepository;
 	
+	public void criarAgenda(Long usuario_id) {
+		Usuario usuario = usuarioRepository.findById(usuario_id).get();
+		Optional<Agenda> agenda = agendaRepository.findByUsuario(usuario);
+		Agenda novaAgenda = new Agenda();
+		if (!agenda.isPresent()) {
+			novaAgenda = new Agenda(usuario);
+			agendaRepository.save(novaAgenda);
+		}
+	}
+	
 	@GetMapping("/agenda/{usuario_id}")
 	public ResponseEntity<Long> retornaIdAgendaPeloUsuario(@PathVariable Long usuario_id) {
+		
+		criarAgenda(usuario_id);
 		
 		Usuario usuario = usuarioRepository.findById(usuario_id).get();
 		Optional<Agenda> agenda = agendaRepository.findByUsuario(usuario);
@@ -80,7 +91,7 @@ public class AgendaController {
 	@PostMapping("/contatos/{agenda_id}")
 	@Transactional
 	@CacheEvict(value = "listaEnderecos", allEntries = true)
-	public ResponseEntity<ContatoDto> novoContato(@PathVariable Long agenda_id, @RequestBody @Valid ContatoForm contatoForm, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<List<ContatoDto>> novoContato(@PathVariable Long agenda_id, @RequestBody @Valid ContatoForm contatoForm, UriComponentsBuilder uriBuilder) {
 		
 		Contato contato = contatoForm.converter(agendaRepository, agenda_id);
 		
@@ -90,9 +101,7 @@ public class AgendaController {
 		}
 		
 		contatoRepository.save(contato);
-		
-		URI uri = uriBuilder.path("/contatos/{agenda_id}/{id}").buildAndExpand(contato.getId()).toUri();
-		return ResponseEntity.created(uri).body(new ContatoDto(contato));
+		return ResponseEntity.ok(listarContatos(agenda_id));
 	}
 	
 	@GetMapping("/contatos/{agenda_id}/{id}")

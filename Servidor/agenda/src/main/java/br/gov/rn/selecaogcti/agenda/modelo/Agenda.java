@@ -30,7 +30,6 @@ public class Agenda {
 	}
 	
 	public Agenda(Usuario usuario) {
-		this.id = usuario.getId();
 		this.usuario = usuario;
 	}
 

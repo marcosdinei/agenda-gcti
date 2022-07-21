@@ -51,6 +51,3 @@ INSERT INTO public.usuario(
 	id,login, password, email,data_cadastro)
 	VALUES (1, 'admin', 'senha', 'administrador@email.com', '2022-07-12');
 
-INSERT INTO public.agenda(
-	id, usuario_id, data_cadastro)
-	VALUES (1, 1, '2022-07-19');

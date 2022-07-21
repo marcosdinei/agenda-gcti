@@ -35,7 +35,6 @@ public class Contato {
 	}
 	
 	public Contato(Agenda agenda, String nome, String telefone, boolean whatsapp, String email) {
-		super();
 		this.agenda = agenda;
 		this.nome = nome;
 		this.telefone = telefone;

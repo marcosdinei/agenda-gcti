@@ -1,6 +1,5 @@
 package br.gov.rn.selecaogcti.agenda.controller.form;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -11,16 +10,16 @@ import br.gov.rn.selecaogcti.agenda.repository.AgendaRepository;
 
 public class ContatoForm {
 
-	@NotNull @NotEmpty @Length(max = 255)
+	@NotNull @Length(max = 255)
 	private String nome;
 	
-	@NotNull @NotEmpty @Length(min = 11, max = 11)
+	@NotNull @Length(min = 11, max = 11)
 	private String telefone;
 	
 	@NotNull
 	private boolean whatsapp;
 	
-	@NotNull @NotEmpty @Length(max = 50)
+	@NotNull @Length(max = 50)
 	private String email;
 
 	public String getNome() {
@@ -56,7 +55,7 @@ public class ContatoForm {
 	}
 
 	public Contato converter(AgendaRepository agendaRepository, Long agenda_id) {
-		Agenda agenda = agendaRepository.getReferenceById(agenda_id);
+		Agenda agenda = agendaRepository.findById(agenda_id).get();
 		return new Contato(agenda, nome, telefone, whatsapp, email);
 	}
 	
