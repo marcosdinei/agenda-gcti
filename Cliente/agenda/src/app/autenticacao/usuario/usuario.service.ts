@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import jwtDecode from 'jwt-decode';
-import { catchError, map, Observable, BehaviorSubject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { TokenService } from '../token.service';
 import { environment } from './../../../environments/environment';
@@ -14,7 +14,7 @@ const API = environment.apiURL;
 })
 export class UsuarioService {
 
-  private usuarioSubject = new BehaviorSubject<Usuario>({});
+  private usuario$ = new Observable<Usuario>;
 
    constructor(private tokenService: TokenService, private httpClient: HttpClient) {
     if (this.tokenService.possuiToken()) {
@@ -24,18 +24,13 @@ export class UsuarioService {
 
   decodificaJwt() {
     const token = this.tokenService.retornaToken();
-    const usuario = jwtDecode(token) as Usuario;
-    this.usuarioSubject.next(usuario);
+    const usuario: any = jwtDecode(token);
+    const usuario_id = usuario.sub;
+    this.usuario$ = (this.httpClient.get<Usuario>(`${ API }/usuario/${ usuario_id }`));
   }
 
   retornaUsuario(): Observable<Usuario> {
-    return this.usuarioSubject.asObservable();
-  }
-
-  retornaUsuarioPeloId(usuario_id: number): Observable<Usuario> {
-    const token = this.tokenService.retornaToken();
-    const headers = new HttpHeaders().append('Authorization', `Bearer ${ token }`);
-    return this.httpClient.get<Usuario>(`${ API }/usuario/${ usuario_id }`, {headers});
+    return this.usuario$;
   }
 
   salvaToken(token: string) {
@@ -45,7 +40,7 @@ export class UsuarioService {
 
   logout() {
     this.tokenService.excluiToken();
-    this.usuarioSubject.next({});
+    this.usuario$ = this.httpClient.get(`${ API }/usuario/vazio`);
   }
 
   estaLogado() {

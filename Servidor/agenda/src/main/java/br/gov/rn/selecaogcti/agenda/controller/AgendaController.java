@@ -70,6 +70,27 @@ public class AgendaController {
 			return ResponseEntity.badRequest().build();
 		}
 	}
+	
+	@GetMapping("/usuario/{usuario_id}")
+	public ResponseEntity<Optional<Usuario>> retornaUsuarioPeloId(@PathVariable Long usuario_id) {
+		
+		Optional<Usuario> usuario = usuarioRepository.findById(usuario_id);
+		
+		if (usuario.isPresent()) {
+			return ResponseEntity.ok(usuario);
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
+	}
+	
+	@GetMapping("/usuario/vazio")
+	public ResponseEntity<Usuario> retornaUsuarioVazio() {
+		
+		Usuario usuario = new Usuario();
+		usuario.retornaVazio(usuario);
+		
+		return ResponseEntity.ok(usuario);
+	}
 
 	@GetMapping("/contatos/{agenda_id}")
 	@Cacheable(value = "listaC")
@@ -104,7 +125,7 @@ public class AgendaController {
 		return ResponseEntity.ok(listarContatos(agenda_id));
 	}
 	
-	@GetMapping("/contatos/{agenda_id}/{id}")
+	@GetMapping("/contatos/detalhe/{id}")
 	public ResponseEntity<DetalhesContatoDto> detalharContato(@PathVariable Long id) {
 		
 		Optional<Contato> contato = contatoRepository.findById(id);
@@ -115,15 +136,15 @@ public class AgendaController {
 		return ResponseEntity.notFound().build();
 	}
 	
-	@PutMapping("/contatos/{agenda_id}/{id}")
+	@PutMapping("/contatos/{id}")
 	@Transactional
 	@CacheEvict(value = "listaEnderecos", allEntries = true)
-	public ResponseEntity<ContatoDto> atualizarContato(@PathVariable Long id, @RequestBody @Valid AtualizarContatoForm atualizarContatoForm) {
+	public ResponseEntity<DetalhesContatoDto> atualizarContato(@PathVariable Long id, @RequestBody @Valid AtualizarContatoForm atualizarContatoForm) {
 		
 		Optional<Contato> contatoOp = contatoRepository.findById(id);
 		if (contatoOp.isPresent()) {
 			Contato contato = atualizarContatoForm.atualizar(id, contatoRepository);
-			return ResponseEntity.ok(new ContatoDto(contato));
+			return ResponseEntity.ok(new DetalhesContatoDto(contato));
 		}
 		
 		return ResponseEntity.notFound().build();

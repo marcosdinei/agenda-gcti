@@ -1,26 +1,30 @@
-<div class="column is-one-third is-offset-one-third">
-  <div class="box">
+<div *ngIf="contatos$ | async as contatos">
 
-    <div *ngIf="contatos$ | async as contatos">
-      <h1 class="title">Nenhum contato encontrado</h1>
+  <div *ngIf="contatos.length > 0; else listaVazia">
+    <table class="table is-striped is-hoverable is-fullwidth">
+      <thead>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th></th>
+      </thead>
 
-      <table class="table is-striped is-hoverable is-fullwidth">
-        <thead>
-          <th>Nome</th>
-          <th>Telefone</th>
-        </thead>
-        <tbody *ngIf="contatos.length > 0; else loading">
-          <tr *ngFor="let contato of contatos">
-            <td>{{ contato.nome }}</td>
-            <td>{{ contato.telefone }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <tbody>
+        <tr *ngFor="let contato of contatos">
+          <td>{{ contato.nome }}</td>
+          <td>{{ contato.telefone }}</td>
+          <td>
+            <a class="button is-outlined is-info" [routerLink]="['/contatos', contato.id]">Ver detalhes</a>
+          </td>
+        </tr>
+      </tbody>
 
-    <ng-template #loading>
-      <progress class="progress is-large is-info" max="100">60%</progress>
-    </ng-template>
-
+    </table>
   </div>
 </div>
+
+<!--ng-template #loading>
+  <progress class="progress is-large is-info" max="100">60%</progress>
+</ng-template-->
+<ng-template #listaVazia>
+  <h1 class="title">Nenhum contato encontrado</h1>
+</ng-template>

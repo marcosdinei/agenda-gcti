@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { switchMap, Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { Observable, switchMap } from 'rxjs';
 
 import { AgendaService } from './../../agenda/agenda.service';
 import { UsuarioService } from './../../autenticacao/usuario/usuario.service';
@@ -16,7 +17,7 @@ export class ListaContatosComponent implements OnInit {
   @Input()
   contatos$!: Observable<Contatos>;
 
-  constructor(private usuarioService: UsuarioService, private agendaService: AgendaService, private contatosService: ContatosService) { }
+  constructor(private usuarioService: UsuarioService, private agendaService: AgendaService, private contatosService: ContatosService, private router: Router) { }
 
   ngOnInit(): void {
     this.contatos$ = this.usuarioService.retornaUsuario().pipe(
@@ -30,4 +31,5 @@ export class ListaContatosComponent implements OnInit {
       })
     );
   }
+
 }

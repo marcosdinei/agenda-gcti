@@ -8,14 +8,20 @@ import br.gov.rn.selecaogcti.agenda.modelo.Contato;
 //classe DTO (Data Transfer Object) que passa pra Agenda apenas alguns atributos do Contato
 public class ContatoDto {
 
+	private Long id;
 	private String nome;
 	private String telefone;
 	
 	public ContatoDto(Contato contato) {
+		this.id = contato.getId();
 		this.nome = contato.getNome();
 		this.telefone = contato.getTelefone();
 	}
 	
+	public Long getId() {
+		return id;
+	}
+
 	public String getNome() {
 		return nome;
 	}

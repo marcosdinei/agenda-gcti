@@ -1,0 +1,65 @@
+<div *ngIf="contato$ | async as contato">
+
+  <form (ngSubmit)="editaContato()">
+
+    <div class="field">
+      <label class="label is-large">Editar Contato</label>
+    </div>
+
+    <div class="field">
+      <label class="label">Nome</label>
+      <div class="control">
+        <input class="input" type="text" [(ngModel)]="contato.nome" name="nome">
+      </div>
+    </div>
+
+    <div class="columns">
+
+      <div class="column is-half">
+        <div class="field">
+          <label class="label">Telefone</label>
+          <div class="control">
+            <input class="input" type="text" [(ngModel)]="contato.telefone" name="telefone">
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="field">
+          <label class="label">WhatsApp</label>
+          <div class="control">
+            <div class="select">
+              <select [(ngModel)]="contato.whatsapp" name="whatsapp">
+                <option value="true">Sim</option>
+                <option value="false">Não</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="field">
+      <label class="label">Email</label>
+      <div class="control">
+        <input class="input" type="text" [(ngModel)]="contato.email" name="email">
+      </div>
+    </div>
+
+    <div class="field is-grouped is-grouped-centered">
+      <p class="control">
+        <button class="button is-info">
+          Editar
+        </button>
+      </p>
+      <p class="control">
+        <button class="button is-info">
+          Excluir
+        </button>
+      </p>
+    </div>
+
+  </form>
+
+</div>

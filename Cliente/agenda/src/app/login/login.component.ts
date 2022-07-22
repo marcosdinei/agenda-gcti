@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AutenticacaoService } from '../autenticacao/autenticacao.service';
-import { UsuarioService } from './../autenticacao/usuario/usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +21,7 @@ export class LoginComponent implements OnInit {
   fazerLogin() {
     this.autenticacaoService.autenticar(this.usuario, this.senha).subscribe(
       {
-        next: (res) => {
+        next: () => {
           this.router.navigate(['contatos'])
         },
         error: () => {

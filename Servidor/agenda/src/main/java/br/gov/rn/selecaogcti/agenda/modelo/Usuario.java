@@ -100,6 +100,15 @@ public class Usuario implements UserDetails {
 		return true;
 	}
 	
+	public Usuario retornaVazio(Usuario usuario) {
+		usuario.setId(null);
+		usuario.setLogin(null);
+		usuario.setPassword(null);
+		usuario.setEmail(null);
+		usuario.setData_cadastro(null);
+		return usuario;
+	}
+	
 	
 	
 }

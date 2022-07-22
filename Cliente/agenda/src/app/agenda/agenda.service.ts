@@ -1,10 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 
 import { environment } from './../../environments/environment';
-import { TokenService } from './../autenticacao/token.service';
-import { Agenda } from './agenda';
 
 const API = environment.apiURL;
 
@@ -13,14 +11,10 @@ const API = environment.apiURL;
 })
 export class AgendaService {
 
-  constructor(private httpClient: HttpClient, private tokenService: TokenService) {
+  constructor(private httpClient: HttpClient) {
   }
 
   retornaIdAgenda(usuario_id: number): Observable<number> {
-    const token = this.tokenService.retornaToken();
-    const headers = new HttpHeaders().append('Authorization', `Bearer ${ token }`);
-    return this.httpClient.get<number>(`${ API }/agenda/${ usuario_id }`, {
-      headers
-    });
+    return this.httpClient.get<number>(`${ API }/agenda/${ usuario_id }`);
   }
 }

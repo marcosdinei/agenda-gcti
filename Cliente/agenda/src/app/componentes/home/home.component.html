@@ -26,7 +26,7 @@
       <div class="navbar-item">
         <div class="buttons" *ngIf="usuario$ | async as usuario">
 
-          <div *ngIf="usuario.login; else login">
+          <div *ngIf="usuario.login">
 
             <span class="button is-static">
               <span class="icon is-small">
@@ -48,8 +48,10 @@
   </div>
 </nav>
 
-<ng-template #login>
-  <a class="button is-info is-light" [routerLink]="['']">
-    Login
-  </a>
-</ng-template>
+<div class="column is-one-third is-offset-one-third">
+  <div class="box">
+
+    <router-outlet></router-outlet>
+
+  </div>
+</div>

@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AutenticacaoGuard } from './autenticacao/autenticacao.guard';
+import { LoginGuard } from './autenticacao/login.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -9,11 +12,13 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
+    loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
+    canLoad: [LoginGuard]
   },
   {
     path: 'contatos',
-    loadChildren: () => import('./contatos/contatos.module').then(m => m.ContatosModule)
+    loadChildren: () => import('./componentes/home/home.module').then(m => m.HomeModule),
+    canLoad: [AutenticacaoGuard]
   }
 ];
 

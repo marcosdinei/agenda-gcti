@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { faAddressBook, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
-import { UsuarioService } from './../../autenticacao/usuario/usuario.service';
+import { UsuarioService } from '../../autenticacao/usuario/usuario.service';
 
 @Component({
   selector: 'app-cabecalho',
-  templateUrl: './cabecalho.component.html',
-  styleUrls: ['./cabecalho.component.css']
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class CabecalhoComponent {
+export class HomeComponent {
 
   faUserCircle = faUserCircle;
   faAdressBook = faAddressBook;
