@@ -17,7 +17,7 @@ export class ListaContatosComponent implements OnInit {
   @Input()
   contatos$!: Observable<Contatos>;
 
-  constructor(private usuarioService: UsuarioService, private agendaService: AgendaService, private contatosService: ContatosService, private router: Router) { }
+  constructor(private usuarioService: UsuarioService, private agendaService: AgendaService, private contatosService: ContatosService) { }
 
   ngOnInit(): void {
     this.contatos$ = this.usuarioService.retornaUsuario().pipe(

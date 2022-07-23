@@ -1,6 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, switchMap, take } from 'rxjs';
 
 import { environment } from './../../environments/environment';
 import { Contato, Contatos } from './contato';
@@ -29,8 +29,8 @@ export class ContatosService {
     });
   }
 
-  excluiContato(contato_id: number, agenda_id: number): Observable<Contato> {
-    return this.httpClient.delete<Contato>(`${ API }/contatos/${ agenda_id }/${ contato_id }`);
+  excluiContato(contato_id: number): Observable<any> {
+    return this.httpClient.delete<any>(`${ API }/contatos/${ contato_id }`).pipe(take(1));
   }
 
 }

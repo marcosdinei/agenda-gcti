@@ -49,12 +49,12 @@
 
     <div class="field is-grouped is-grouped-centered">
       <p class="control">
-        <button class="button is-info">
+        <button class="button is-info" type="submit">
           Editar
         </button>
       </p>
       <p class="control">
-        <button class="button is-info">
+        <button class="button is-info" (click)="excluiContato()" [routerLink]="['/contatos']">
           Excluir
         </button>
       </p>

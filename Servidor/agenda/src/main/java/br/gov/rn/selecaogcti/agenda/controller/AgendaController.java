@@ -150,17 +150,17 @@ public class AgendaController {
 		return ResponseEntity.notFound().build();
 	}
 	
-	@DeleteMapping("/contatos/{agenda_id}/{id}")
+	@DeleteMapping("/contatos/{id}")
 	@Transactional
 	@CacheEvict(value = "listaEnderecos", allEntries = true)
-	public ResponseEntity<List<ContatoDto>> removerContato(@PathVariable Long agenda_id, @PathVariable Long id) {
+	public ResponseEntity<?> removerContato(@PathVariable Long id) {
 		
 		Optional<Contato> contatoOp = contatoRepository.findById(id);
 		if (contatoOp.isPresent()) {
-			Contato contato = contatoRepository.getReferenceById(id);
+			Contato contato = contatoOp.get();
 			contato.setAtivo(false);
 			
-			return ResponseEntity.ok(listarContatos(agenda_id));
+			return ResponseEntity.ok().build();
 		}
 		
 		return ResponseEntity.notFound().build();

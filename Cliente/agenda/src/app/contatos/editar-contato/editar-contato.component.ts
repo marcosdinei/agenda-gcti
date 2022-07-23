@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { Contato } from './../contato';
@@ -29,8 +29,12 @@ export class EditarContatoComponent implements OnInit {
   }
 
   editaContato() {
-    //TRANSFORMAR CONTATO$ EM CONTATO
+    //TRANSFORMAR contato$ EM contato
     this.contatosService.editaContato(this.contato_id, this.contato);
+  }
+
+  excluiContato() {
+    this.contatosService.excluiContato(this.contato_id).subscribe();
   }
 
 }
