@@ -8,8 +8,6 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -93,7 +91,6 @@ public class AgendaController {
 	}
 
 	@GetMapping("/contatos/{agenda_id}")
-	@Cacheable(value = "listaC")
 	public List<ContatoDto> listarContatos(@PathVariable Long agenda_id) {
 		
 		Agenda agenda = agendaRepository.findById(agenda_id).get();
@@ -111,7 +108,6 @@ public class AgendaController {
 	
 	@PostMapping("/contatos/{agenda_id}")
 	@Transactional
-	@CacheEvict(value = "listaEnderecos", allEntries = true)
 	public ResponseEntity<List<ContatoDto>> novoContato(@PathVariable Long agenda_id, @RequestBody @Valid ContatoForm contatoForm, UriComponentsBuilder uriBuilder) {
 		
 		Contato contato = contatoForm.converter(agendaRepository, agenda_id);
@@ -138,7 +134,6 @@ public class AgendaController {
 	
 	@PutMapping("/contatos/{id}")
 	@Transactional
-	@CacheEvict(value = "listaEnderecos", allEntries = true)
 	public ResponseEntity<DetalhesContatoDto> atualizarContato(@PathVariable Long id, @RequestBody @Valid AtualizarContatoForm atualizarContatoForm) {
 		
 		Optional<Contato> contatoOp = contatoRepository.findById(id);
@@ -152,7 +147,6 @@ public class AgendaController {
 	
 	@DeleteMapping("/contatos/{id}")
 	@Transactional
-	@CacheEvict(value = "listaEnderecos", allEntries = true)
 	public ResponseEntity<?> removerContato(@PathVariable Long id) {
 		
 		Optional<Contato> contatoOp = contatoRepository.findById(id);

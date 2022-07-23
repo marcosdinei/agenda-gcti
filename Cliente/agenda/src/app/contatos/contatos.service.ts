@@ -22,8 +22,8 @@ export class ContatosService {
     return this.httpClient.get<Contato>(`${ API }/contatos/detalhe/${ contato_id }`);
   }
 
-  editaContato(contato_id: number, contato: Object): Observable<HttpResponse<any>> {
-    return this.httpClient.put<Contato>(`${ API }/contatos/${ contato_id }`, contato,
+  editaContato(contato_id: number, novoContato: Object): Observable<HttpResponse<any>> {
+    return this.httpClient.put<Contato>(`${ API }/contatos/${ contato_id }`, novoContato,
     {
       observe: 'response'
     });

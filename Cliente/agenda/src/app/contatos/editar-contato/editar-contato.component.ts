@@ -13,28 +13,37 @@ import { ContatosService } from './../contatos.service';
 export class EditarContatoComponent implements OnInit {
 
   contato_id!: number;
-  contato = {
-    nome: '',
-    telefone: '',
-    email: '',
-    whatsapp: true
-  };
-  contato$!: Observable<Contato>;
+  nome!: string;
+  telefone!: string;
+  email!: string;
+  whatsapp!: boolean;
 
-  constructor(private contatosService: ContatosService, private activatedRoute: ActivatedRoute) { }
+  constructor(private contatosService: ContatosService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.contato_id = this.activatedRoute.snapshot.params['contato_id'];
-    this.contato$ = this.contatosService.detalheContato(this.contato_id);
+    this.contatosService.detalheContato(this.contato_id).subscribe((contato) => {
+      this.nome = contato.nome;
+      this.telefone = contato.telefone;
+      this.email = contato.email;
+      this.whatsapp = contato.whatsapp;
+    });
   }
 
   editaContato() {
-    //TRANSFORMAR contato$ EM contato
-    this.contatosService.editaContato(this.contato_id, this.contato);
+    let novoContato = {
+      nome: this.nome,
+      telefone: this.telefone,
+      email: this.email,
+      whatsapp: this.whatsapp
+    }
+    this.contatosService.editaContato(this.contato_id, novoContato).subscribe();
+    this.router.navigate(['contatos']);
   }
 
   excluiContato() {
     this.contatosService.excluiContato(this.contato_id).subscribe();
+    this.router.navigate(['contatos']);
   }
 
 }
