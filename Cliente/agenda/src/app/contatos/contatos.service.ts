@@ -18,6 +18,13 @@ export class ContatosService {
     return this.httpClient.get<Contatos>(`${API}/contatos/${ agenda_id }`);
   }
 
+  cadastraContato(agenda_id: number, contato: Object): Observable<HttpResponse<any>> {
+    return this.httpClient.post(`${ API }/contatos/${ agenda_id }`, contato,
+    {
+      observe: 'response'
+    });
+  }
+
   detalheContato(contato_id: number): Observable<Contato> {
     return this.httpClient.get<Contato>(`${ API }/contatos/detalhe/${ contato_id }`);
   }

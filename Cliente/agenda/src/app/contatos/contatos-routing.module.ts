@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { EditarContatoComponent } from './editar-contato/editar-contato.component';
 import { ListaContatosComponent } from './lista-contatos/lista-contatos.component';
+import { NovoContatoComponent } from './novo-contato/novo-contato.component';
 
 const routes: Routes = [
   {
@@ -10,8 +11,12 @@ const routes: Routes = [
     component: ListaContatosComponent
   },
   {
-    path: ':contato_id',
+    path: 'editar/:contato_id',
     component: EditarContatoComponent
+  },
+  {
+    path: 'novo',
+    component: NovoContatoComponent
   }
 ];
 

@@ -6,12 +6,14 @@ import { ModalModule } from '../componentes/modal/modal.module';
 import { ContatosRoutingModule } from './contatos-routing.module';
 import { EditarContatoComponent } from './editar-contato/editar-contato.component';
 import { ListaContatosComponent } from './lista-contatos/lista-contatos.component';
+import { NovoContatoComponent } from './novo-contato/novo-contato.component';
 
 
 @NgModule({
   declarations: [
     ListaContatosComponent,
-    EditarContatoComponent
+    EditarContatoComponent,
+    NovoContatoComponent
   ],
   imports: [
     CommonModule,
