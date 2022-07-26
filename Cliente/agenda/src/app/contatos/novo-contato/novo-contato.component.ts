@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AgendaService } from 'src/app/agenda/agenda.service';
 import { UsuarioService } from 'src/app/autenticacao/usuario/usuario.service';
 
 import { ContatosService } from '../contatos.service';
-import { EnderecosService } from '../enderecos/enderecos.service';
 
 @Component({
   selector: 'app-novo-contato',
@@ -13,13 +13,16 @@ import { EnderecosService } from '../enderecos/enderecos.service';
 })
 export class NovoContatoComponent implements OnInit {
 
+  novoContatoForm!: FormGroup;
   agenda_id!: number;
-  nome!: string;
-  telefone!: string;
-  email!: string;
-  whatsapp: boolean = true;
 
-  constructor(private usuarioService: UsuarioService, private agendaService: AgendaService, private contatosService: ContatosService, private enderecoService: EnderecosService, private router: Router) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private usuarioService: UsuarioService,
+    private agendaService: AgendaService,
+    private contatosService: ContatosService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.usuarioService.retornaUsuario().subscribe(
@@ -32,15 +35,16 @@ export class NovoContatoComponent implements OnInit {
         )
       }
     );
+    this.novoContatoForm = this.formBuilder.group({
+      nome: [''],
+      telefone: [''],
+      email: [''],
+      whatsapp: [true]
+    });
   }
 
   cadastraContato() {
-    let novoContato = {
-      nome: this.nome,
-      telefone: this.telefone,
-      email: this.email,
-      whatsapp: this.whatsapp
-    }
+    let novoContato = this.novoContatoForm.getRawValue();
     this.contatosService.cadastraContato(this.agenda_id, novoContato).subscribe(() => {
       this.router.navigate(['']);
     });

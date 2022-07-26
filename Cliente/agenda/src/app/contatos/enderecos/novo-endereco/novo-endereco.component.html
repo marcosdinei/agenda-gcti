@@ -1,46 +1,91 @@
-<div class="field">
-  <label class="label">Rua</label>
-  <div class="control">
-    <input class="input" type="text" [(ngModel)]="rua" name="rua">
-  </div>
-</div>
+<div class="content">
 
-<div class="field">
-  <label class="label">Bairro</label>
-  <div class="control">
-    <input class="input" type="text" [(ngModel)]="bairro" name="bairro">
-  </div>
-</div>
-
-<div class="columns">
-
-  <div class="column is-one_third">
-    <div class="field">
-      <label class="label">Número</label>
-      <div class="control">
-        <input class="input" type="text" [(ngModel)]="numero" name="numero">
-      </div>
+  <div class="columns">
+    <div class="column is-9">
+      <h4>Endereços</h4>
+    </div>
+    <div class="column is-3">
+      <button class="button is-info is-outlined" (click)="novoEndereco.toggle()">Adicionar</button>
     </div>
   </div>
 
-  <div class="column is-one_third">
-    <div class="field">
-      <label class="label">UF</label>
-      <div class="control">
-        <input class="input" type="text" [(ngModel)]="uf" name="uf">
-      </div>
-    </div>
-  </div>
+  <p *ngIf="enderecos.length == 0">Nenhum endereço cadastrado</p>
 
-  <div class="column is-one_third">
-    <div class="field">
-      <label class="label">CEP</label>
-      <div class="control">
-        <input class="input" type="text" [(ngModel)]="cep" name="cep">
+  <div *ngFor="let endereco of enderecos">
+    <ul>
+      <div class="columns">
+        <div class="column is-9">
+          <li>
+            R. {{ endereco.rua }}, {{ endereco.numero }} - {{ endereco.bairro }} - {{ endereco.uf }}, {{ endereco.cep }}
+          </li>
+        </div>
+        <div class="column is-3">
+          <button class="button is-small">Remover</button>
+        </div>
       </div>
-    </div>
+    </ul>
   </div>
-
 </div>
 
-<div class="field"></div>
+<app-modal #novoEndereco>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Novo endereço</p>
+      <button class="delete" (click)="novoEndereco.toggle()"></button>
+    </header>
+    <section class="modal-card-body">
+
+      <form *ngIf="novoEnderecoForm" [formGroup]="novoEnderecoForm">
+        <div class="field">
+          <label class="label">Rua</label>
+          <div class="control">
+            <input class="input" type="text" name="rua" formControlName="rua">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Bairro</label>
+          <div class="control">
+            <input class="input" type="text" name="bairro" formControlName="bairro">
+          </div>
+        </div>
+
+        <div class="columns">
+
+          <div class="column is-one_third">
+            <div class="field">
+              <label class="label">Número</label>
+              <div class="control">
+                <input class="input" type="text" name="numero" formControlName="numero">
+              </div>
+            </div>
+          </div>
+
+          <div class="column is-one_third">
+            <div class="field">
+              <label class="label">UF</label>
+              <div class="control">
+                <input class="input" type="text" name="uf" formControlName="uf">
+              </div>
+            </div>
+          </div>
+
+          <div class="column is-one_third">
+            <div class="field">
+              <label class="label">CEP</label>
+              <div class="control">
+                <input class="input" type="text" name="cep" formControlName="cep">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </form>
+
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-info" (click)="guardaEndereco(); novoEndereco.toggle()">Salvar</button>
+      <button class="button" (click)="novoEndereco.toggle()">Cancelar</button>
+    </footer>
+  </div>
+</app-modal>

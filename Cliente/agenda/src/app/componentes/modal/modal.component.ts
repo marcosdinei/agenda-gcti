@@ -10,18 +10,18 @@ import { ModalService } from './modal.service';
 export class ModalComponent implements OnInit {
 
   @Input()
-  mostraErro: boolean = false;
+  mostrar: boolean = false;
 
   constructor(private modalService: ModalService) { }
 
   ngOnInit(): void {
     this.modalService.eventMostraErro.subscribe(
-      (event) => this.mostraErro = event
+      (event) => this.mostrar = event
     )
   }
 
   toggle() {
-    this.mostraErro = !this.mostraErro;
+    this.mostrar = !this.mostrar;
   }
 
 }

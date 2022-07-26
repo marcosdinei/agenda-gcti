@@ -16,7 +16,7 @@
 
   <div id="navbarMenu" class="navbar-menu">
     <div class="navbar-start">
-      <a class="navbar-item" [routerLink]="['']">
+      <a class="navbar-item" [routerLink]="['/contatos']">
         Início
       </a>
 
@@ -33,10 +33,10 @@
           <div *ngIf="usuario.login">
 
             <span class="button is-static">
-              <span class="icon is-small">
+              <!--span class="icon is-small">
                 <i class="fa-solid fa-circle-user"></i>
-              </span>
-              <span>{{ usuario.login }}</span>
+              </span-->
+              <span>Bem vindo, {{ usuario.login }}</span>
             </span>
 
             <a class="button is-info is-light" (click)="logout()">

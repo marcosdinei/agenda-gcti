@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { EnderecosService } from './../enderecos.service';
 
@@ -9,33 +10,37 @@ import { EnderecosService } from './../enderecos.service';
 })
 export class NovoEnderecoComponent implements OnInit {
 
+  novoEnderecoForm!: FormGroup;
+  enderecos: Array<any> = [];
   contato_id!: number;
-  rua!: string;
-  bairro!: string;
-  numero!: number;
-  uf!: string;
-  cep!: string;
 
-  constructor(private enderecosService: EnderecosService) { }
+  constructor(private formBuilder: FormBuilder, private enderecosService: EnderecosService) { }
 
   ngOnInit(): void {
     this.enderecosService.eventContatoId.subscribe(
       (event) => {
         this.contato_id = event;
-        this.cadastraEndereco();
+        this.cadastraEnderecos();
       }
-    )
+    );
+    this.novoEnderecoForm = this.formBuilder.group({
+      rua: [''],
+      bairro: [''],
+      numero: [''],
+      uf: [''],
+      cep: ['']
+    });
   }
 
-  cadastraEndereco() {
-    let novoEndereco = {
-      rua: this.rua,
-      bairro: this.bairro,
-      numero: this.numero,
-      uf: this.uf,
-      cep: this.cep,
-    }
-    this.enderecosService.cadastraEndereco(this.contato_id, novoEndereco).subscribe();
+  guardaEndereco() {
+    let novoEndereco = this.novoEnderecoForm.getRawValue();
+    this.enderecos.push(novoEndereco);
+  }
+
+  cadastraEnderecos() {
+    this.enderecos.forEach(endereco => {
+      this.enderecosService.cadastraEndereco(this.contato_id, endereco).subscribe();
+    });
   }
 
 }

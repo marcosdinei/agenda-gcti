@@ -48,8 +48,9 @@ export class UsuarioService {
     if (this.tokenService.possuiToken()) {
       const token = this.tokenService.retornaToken();
       const jwt: any = jwtDecode(token);
-      const tempoLogado = jwt.exp - jwt.iat;
-      if (tempoLogado <= 1800) {
+      const expiracao = jwt.exp;
+      const dataAtual = new Date();
+      if (dataAtual.getTime() <= expiracao * 1000) {
         return true;
       }
     }
