@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AgendaService } from 'src/app/agenda/agenda.service';
 import { UsuarioService } from 'src/app/autenticacao/usuario/usuario.service';
 
 import { ContatosService } from '../contatos.service';
+import { TelefoneExisteService } from './telefone-existe.service';
 
 @Component({
   selector: 'app-novo-contato',
@@ -19,6 +20,7 @@ export class NovoContatoComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private usuarioService: UsuarioService,
+    private telefoneExisteService: TelefoneExisteService,
     private agendaService: AgendaService,
     private contatosService: ContatosService,
     private router: Router
@@ -36,9 +38,9 @@ export class NovoContatoComponent implements OnInit {
       }
     );
     this.novoContatoForm = this.formBuilder.group({
-      nome: [''],
-      telefone: [''],
-      email: [''],
+      nome: ['', [Validators.required, Validators.maxLength(255)]],
+      telefone: ['', [Validators.required], [this.telefoneExisteService.telefoneExiste()]],
+      email: ['', [Validators.required, Validators.email]],
       whatsapp: [true]
     });
   }

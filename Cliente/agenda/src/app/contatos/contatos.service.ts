@@ -32,6 +32,10 @@ export class ContatosService {
     );
   }
 
+  verificaTelefone(telefone: string) {
+    return this.httpClient.get(`${ API }/contatos/telefone-existe/${ telefone }`);
+  }
+
   detalheContato(contato_id: number): Observable<Contato> {
     return this.httpClient.get<Contato>(`${ API }/contatos/detalhe/${ contato_id }`);
   }

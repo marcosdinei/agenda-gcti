@@ -1,3 +1,4 @@
+import { NgxMaskModule } from 'ngx-mask';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -21,7 +22,8 @@ import { NovoContatoComponent } from './novo-contato/novo-contato.component';
     ContatosRoutingModule,
     EnderecosModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMaskModule.forChild()
   ]
 })
 export class ContatosModule { }

@@ -7,7 +7,9 @@
   <div class="field">
     <label class="label">Nome</label>
     <div class="control">
-      <input class="input" type="text" name="nome" formControlName="nome">
+      <input class="input" type="text" name="nome" formControlName="nome" placeholder="Nome do Contato">
+      <app-mensagem *ngIf="novoContatoForm.get('nome')?.errors &&
+        novoContatoForm.get('nome')?.touched" mensagem="Informe o nome"></app-mensagem>
     </div>
   </div>
 
@@ -17,7 +19,11 @@
       <div class="field">
         <label class="label">Telefone</label>
         <div class="control">
-          <input class="input" type="text" name="telefone" formControlName="telefone">
+          <input class="input" type="text" name="telefone" formControlName="telefone" mask="(00)00000-0000" placeholder="(99)99999-9999">
+          <app-mensagem *ngIf="novoContatoForm.get('telefone')?.errors?.['required'] &&
+            novoContatoForm.get('telefone')?.touched" mensagem="Informe o telefone"></app-mensagem>
+          <app-mensagem *ngIf="novoContatoForm.get('telefone')?.errors?.['telefone'] &&
+            novoContatoForm.get('telefone')?.touched" mensagem="Telefone já cadastrado"></app-mensagem>
         </div>
       </div>
     </div>
@@ -41,7 +47,11 @@
   <div class="field">
     <label class="label">Email</label>
     <div class="control">
-      <input class="input" type="text" name="email" formControlName="email">
+      <input class="input" type="text" name="email" formControlName="email" placeholder="exemplo@email.com">
+      <app-mensagem *ngIf="novoContatoForm.get('email')?.errors?.['required'] &&
+        novoContatoForm.get('email')?.touched" mensagem="Informe o email"></app-mensagem>
+      <app-mensagem *ngIf="novoContatoForm.get('email')?.errors?.['email'] &&
+        novoContatoForm.get('email')?.touched" mensagem="Email inválido"></app-mensagem>
     </div>
   </div>
 

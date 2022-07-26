@@ -1,3 +1,4 @@
+import { NgxMaskModule } from 'ngx-mask';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,7 +15,8 @@ import { NovoEnderecoComponent } from './novo-endereco/novo-endereco.component';
   imports: [
     CommonModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMaskModule.forChild()
   ],
   exports: [
     NovoEnderecoComponent

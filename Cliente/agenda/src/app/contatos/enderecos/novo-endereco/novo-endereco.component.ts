@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { EnderecosService } from './../enderecos.service';
 
@@ -24,11 +24,11 @@ export class NovoEnderecoComponent implements OnInit {
       }
     );
     this.novoEnderecoForm = this.formBuilder.group({
-      rua: [''],
-      bairro: [''],
-      numero: [''],
-      uf: [''],
-      cep: ['']
+      rua: ['', [Validators.required]],
+      bairro: ['', [Validators.required]],
+      numero: ['', [Validators.required]],
+      uf: ['AC'],
+      cep: ['', [Validators.required]]
     });
   }
 
