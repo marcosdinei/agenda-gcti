@@ -52,18 +52,20 @@
       </button>
     </p>
     <p class="control">
-      <button class="button is-info" (click)="modal.toggle()">
+      <button class="button is-info" (click)="excluir.toggle()">
         Excluir
       </button>
 
-      <app-modal #modal>
-        <section class="modal-card-body">
-          Tem certeza que deseja excluir o contato {{ nome }}?
-        </section>
-        <footer class="modal-card-foot">
-          <button class="button is-info" (click)="excluiContato(); modal.toggle()">Sim</button>
-          <button class="button" (click)="modal.toggle()">Não</button>
-        </footer>
+      <app-modal #excluir>
+        <div class="modal-card">
+          <section class="modal-card-body">
+            Tem certeza que deseja excluir o contato {{ nome }}?
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-info" (click)="excluiContato(); excluir.toggle()">Sim</button>
+            <button class="button" (click)="excluir.toggle()">Não</button>
+          </footer>
+        </div>
       </app-modal>
 
     </p>

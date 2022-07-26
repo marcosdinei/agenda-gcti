@@ -14,7 +14,6 @@ import { ContatosService } from './../contatos.service';
 })
 export class ListaContatosComponent implements OnInit {
 
-  @Input()
   contatos$!: Observable<Contatos>;
 
   constructor(private usuarioService: UsuarioService, private agendaService: AgendaService, private contatosService: ContatosService) { }

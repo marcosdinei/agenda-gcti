@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { ModalService } from './modal.service';
 
 @Component({
   selector: 'app-modal',
@@ -7,15 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ModalComponent implements OnInit {
 
-  mostrar: boolean = false;
+  @Input()
+  mostraErro: boolean = false;
 
-  constructor() { }
+  constructor(private modalService: ModalService) { }
 
   ngOnInit(): void {
+    this.modalService.eventMostraErro.subscribe(
+      (event) => this.mostraErro = event
+    )
   }
 
   toggle() {
-    this.mostrar = !this.mostrar;
+    this.mostraErro = !this.mostraErro;
   }
 
 }

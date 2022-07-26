@@ -24,8 +24,8 @@ export class UsuarioService {
 
   decodificaJwt() {
     const token = this.tokenService.retornaToken();
-    const usuario: any = jwtDecode(token);
-    const usuario_id = usuario.sub;
+    const jwt: any = jwtDecode(token);
+    const usuario_id = jwt.sub;
     this.usuario$ = (this.httpClient.get<Usuario>(`${ API }/usuario/${ usuario_id }`));
   }
 
@@ -43,8 +43,18 @@ export class UsuarioService {
     this.usuario$ = this.httpClient.get(`${ API }/usuario/vazio`);
   }
 
-  estaLogado() {
-    return this.tokenService.possuiToken();
+  //possui token e o tempo logado é menor ou igual a 30min
+  estaLogado(): boolean {
+    if (this.tokenService.possuiToken()) {
+      const token = this.tokenService.retornaToken();
+      const jwt: any = jwtDecode(token);
+      const tempoLogado = jwt.exp - jwt.iat;
+      if (tempoLogado <= 1800) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
 }

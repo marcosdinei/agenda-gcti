@@ -1,5 +1,6 @@
 package br.gov.rn.selecaogcti.agenda.controller;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +9,6 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -108,17 +108,25 @@ public class AgendaController {
 	
 	@PostMapping("/contatos/{agenda_id}")
 	@Transactional
-	public ResponseEntity<List<ContatoDto>> novoContato(@PathVariable Long agenda_id, @RequestBody @Valid ContatoForm contatoForm, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<ContatoDto> novoContato(@PathVariable Long agenda_id, @RequestBody @Valid ContatoForm contatoForm, UriComponentsBuilder uriBuilder) {
 		
 		Contato contato = contatoForm.converter(agendaRepository, agenda_id);
 		
-		Optional<Contato> verificaTelefone = contatoRepository.findByTelefone(contato.getTelefone());
+		contatoRepository.save(contato);
+		
+		URI uri = uriBuilder.path("/contatos/novo/{id}").buildAndExpand(contato.getId()).toUri();
+		return ResponseEntity.created(uri).body(new ContatoDto(contato));
+	}
+	
+	@GetMapping("/contatos/telefone-existe/{telefone}")
+	public ResponseEntity<String> telefoneExiste(@PathVariable String telefone){
+		
+		Optional<Contato> verificaTelefone = contatoRepository.findByTelefone(telefone);
 		if (verificaTelefone.isPresent()) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+			return ResponseEntity.ok(telefone);
 		}
 		
-		contatoRepository.save(contato);
-		return ResponseEntity.ok(listarContatos(agenda_id));
+		return null;
 	}
 	
 	@GetMapping("/contatos/detalhe/{id}")

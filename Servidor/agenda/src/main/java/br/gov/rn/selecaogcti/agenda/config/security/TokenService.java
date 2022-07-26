@@ -15,7 +15,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class TokenService {
 
 	@Value("${forum.jwt.expiration}")
-	private String expiration;
+	private String expiration; //30min
 	
 	@Value("${forum.jwt.secret}")
 	private String secret;

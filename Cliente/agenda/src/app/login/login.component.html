@@ -3,7 +3,7 @@
 
     <h1 class="title">Bem vindo!</h1>
 
-    <form (ngSubmit)="fazerLogin()">
+    <form>
 
       <div class="field">
         <label class="label">Login</label>
@@ -23,9 +23,18 @@
 
       <div class="field is-grouped is-grouped-centered">
         <div class="control">
-          <button class="button is-info" type="submit">Entrar</button>
+          <button class="button is-info" (click)="fazerLogin()">Entrar</button>
         </div>
       </div>
+
+      <app-modal #erro>
+        <div class="modal-content">
+          <div class="box">
+            Usuário ou senha inválidos!
+          </div>
+          <button class="modal-close is-large" (click)="erro.toggle()"></button>
+        </div>
+      </app-modal>
 
     </form>
 

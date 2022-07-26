@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AutenticacaoService } from '../autenticacao/autenticacao.service';
+import { ModalService } from '../componentes/modal/modal.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent implements OnInit {
   usuario = '';
   senha = '';
 
-  constructor(private autenticacaoService: AutenticacaoService, private router: Router) { }
+  constructor(private autenticacaoService: AutenticacaoService, private modalService: ModalService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['contatos'])
         },
         error: () => {
-          alert("Usuário ou senha inválidos")
+          this.modalService.aparecer();
         }
       }
     );

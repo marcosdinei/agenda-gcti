@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { switchMap } from 'rxjs';
 import { AgendaService } from 'src/app/agenda/agenda.service';
 import { UsuarioService } from 'src/app/autenticacao/usuario/usuario.service';
 
 import { ContatosService } from '../contatos.service';
+import { EnderecosService } from '../enderecos/enderecos.service';
 
 @Component({
   selector: 'app-novo-contato',
@@ -17,9 +17,9 @@ export class NovoContatoComponent implements OnInit {
   nome!: string;
   telefone!: string;
   email!: string;
-  whatsapp!: boolean;
+  whatsapp: boolean = true;
 
-  constructor(private usuarioService: UsuarioService, private agendaService: AgendaService, private contatosService: ContatosService, private router: Router) { }
+  constructor(private usuarioService: UsuarioService, private agendaService: AgendaService, private contatosService: ContatosService, private enderecoService: EnderecosService, private router: Router) { }
 
   ngOnInit(): void {
     this.usuarioService.retornaUsuario().subscribe(
@@ -41,8 +41,9 @@ export class NovoContatoComponent implements OnInit {
       email: this.email,
       whatsapp: this.whatsapp
     }
-    this.contatosService.cadastraContato(this.agenda_id, novoContato).subscribe();
-    this.router.navigate(['']);
+    this.contatosService.cadastraContato(this.agenda_id, novoContato).subscribe(() => {
+      this.router.navigate(['']);
+    });
   }
 
 }

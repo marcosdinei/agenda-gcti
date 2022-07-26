@@ -1,6 +1,5 @@
 package br.gov.rn.selecaogcti.agenda.controller.form;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -11,30 +10,20 @@ import br.gov.rn.selecaogcti.agenda.repository.ContatoRepository;
 
 public class EnderecoForm {
 
-	@NotNull
-	private Long contato_id;
-	
-	@NotNull @NotEmpty @Length(max = 255)
+	@NotNull @Length(max = 255)
 	private String rua;
 	
-	@NotNull @NotEmpty @Length(max = 255)
+	@NotNull @Length(max = 255)
 	private String bairro;
 	
 	@NotNull
 	private Integer numero;
 	
-	@NotNull @NotEmpty @Length(min = 2, max = 2)
+	@NotNull @Length(min = 2, max = 2)
 	private String uf;
 	
-	@NotNull @NotEmpty @Length(min = 8, max = 8)
+	@NotNull @Length(min = 8, max = 8)
 	private String cep;
-	
-	public Long getContato_id() {
-		return contato_id;
-	}
-	public void setContato_id(Long contato_id) {
-		this.contato_id = contato_id;
-	}
 	
 	public String getRua() {
 		return rua;
@@ -71,7 +60,7 @@ public class EnderecoForm {
 		this.cep = cep;
 	}
 	
-	public Endereco converter(ContatoRepository contatoRepository) {
+	public Endereco converter(ContatoRepository contatoRepository, Long contato_id) {
 		Contato contato = contatoRepository.getReferenceById(contato_id);
 		return new Endereco(contato, rua, bairro, numero, uf, cep);
 	}

@@ -50,7 +50,7 @@ public class EndedrecoController {
 	@Transactional
 	public ResponseEntity<EnderecoDto> adicionarEndereco(@PathVariable Long contato_id, @RequestBody @Valid EnderecoForm enderecoForm, UriComponentsBuilder uriBuilder) {
 		
-		Endereco endereco = enderecoForm.converter(contatoRepository);
+		Endereco endereco = enderecoForm.converter(contatoRepository, contato_id);
 		enderecoRepository.save(endereco);
 		
 		URI uri = uriBuilder.path("/enderecos/{id}").buildAndExpand(endereco.getId()).toUri();

@@ -23,8 +23,8 @@ export class AutenticacaoService {
     {
       observe: 'response'
     }).pipe(
-      tap((res) => {
-        const jsonBody = JSON.stringify(res.body);
+      tap((resposta) => {
+        const jsonBody = JSON.stringify(resposta.body);
         const authToken = jsonBody?.slice(10, jsonBody.length - 18);
         this.usuarioService.salvaToken(authToken);
       })

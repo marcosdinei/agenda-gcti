@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 
-import { Contato } from './../contato';
 import { ContatosService } from './../contatos.service';
 
 @Component({
