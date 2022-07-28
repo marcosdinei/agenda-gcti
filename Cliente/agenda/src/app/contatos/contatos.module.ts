@@ -9,21 +9,21 @@ import { EditarContatoComponent } from './editar-contato/editar-contato.componen
 import { EnderecosModule } from './enderecos/enderecos.module';
 import { ListaContatosComponent } from './lista-contatos/lista-contatos.component';
 import { NovoContatoComponent } from './novo-contato/novo-contato.component';
+import { ContatoFormComponent } from './contato-form/contato-form.component';
 
 
 @NgModule({
   declarations: [
     ListaContatosComponent,
     EditarContatoComponent,
-    NovoContatoComponent
+    NovoContatoComponent,
+    ContatoFormComponent
   ],
   imports: [
     CommonModule,
     ContatosRoutingModule,
     EnderecosModule,
-    SharedModule,
-    ReactiveFormsModule,
-    NgxMaskModule.forChild()
+    SharedModule
   ]
 })
 export class ContatosModule { }

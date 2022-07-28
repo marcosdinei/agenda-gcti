@@ -24,8 +24,8 @@ export class ContatosService {
     {
       observe: 'response'
     }).pipe(
-      tap((resposta) => {
-        const jsonBody = JSON.stringify(resposta.body);
+      tap((contatoDto) => {
+        const jsonBody = JSON.stringify(contatoDto.body);
         const contato_id = parseInt(jsonBody.slice(jsonBody.indexOf(':') + 1, jsonBody.indexOf(',')));
         this.enderecosService.retornaContatoId(contato_id);
       })

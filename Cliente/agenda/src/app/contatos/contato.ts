@@ -12,3 +12,14 @@ export interface Contato {
 }
 
 export type Contatos = Array<Contato>;
+
+export interface ContatoForm {
+
+  nome: string;
+  telefone: string;
+  email: string;
+  whatsapp: boolean;
+
+}
+
+export type ContatosForm = Array<ContatoForm>;

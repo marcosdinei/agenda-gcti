@@ -8,6 +8,7 @@ import br.gov.rn.selecaogcti.agenda.modelo.Endereco;
 //classe DTO (Data Transfer Object) que passa pro ContatoDto apenas alguns atributos do Endereco
 public class EnderecoDto {
 
+	private Long id;
 	private String rua;
 	private String bairro;
 	private Integer numero;
@@ -15,6 +16,7 @@ public class EnderecoDto {
 	private String cep;
 	
 	public EnderecoDto(Endereco endereco) {
+		this.id = endereco.getId();
 		this.rua = endereco.getRua();
 		this.bairro = endereco.getBairro();
 		this.numero = endereco.getNumero();
@@ -22,6 +24,10 @@ public class EnderecoDto {
 		this.cep = endereco.getCep();
 	}
 
+	public Long getId() {
+		return id;
+	}
+	
 	public String getRua() {
 		return rua;
 	}

@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AgendaService } from 'src/app/agenda/agenda.service';
-import { UsuarioService } from 'src/app/autenticacao/usuario/usuario.service';
 
 import { ContatosService } from '../contatos.service';
-import { TelefoneExisteService } from './telefone-existe.service';
+import { Enderecos } from '../enderecos/endereco';
+import { TelefoneExisteService } from '../telefone-existe.service';
+import { AgendaService } from './../../agenda/agenda.service';
+import { UsuarioService } from './../../autenticacao/usuario/usuario.service';
+import { ModalService } from './../../componentes/modal/modal.service';
+import { EnderecosService } from './../enderecos/enderecos.service';
 
 @Component({
   selector: 'app-novo-contato',
@@ -14,8 +17,11 @@ import { TelefoneExisteService } from './telefone-existe.service';
 })
 export class NovoContatoComponent implements OnInit {
 
-  novoContatoForm!: FormGroup;
+  contatoForm!: FormGroup;
+  tipoForm: string = 'Novo contato';
   agenda_id!: number;
+  enderecos: Enderecos = [];
+  erroEndereco: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,6 +29,8 @@ export class NovoContatoComponent implements OnInit {
     private telefoneExisteService: TelefoneExisteService,
     private agendaService: AgendaService,
     private contatosService: ContatosService,
+    private enderecosService: EnderecosService,
+    private modalService: ModalService,
     private router: Router
   ) { }
 
@@ -37,8 +45,21 @@ export class NovoContatoComponent implements OnInit {
         )
       }
     );
-    this.novoContatoForm = this.formBuilder.group({
-      nome: ['', [Validators.required, Validators.maxLength(255)]],
+
+    this.enderecosService.eventEnderecos.subscribe(
+      (event) => {
+        this.enderecos = event;
+      }
+    );
+
+    this.enderecosService.eventErroEndereco.subscribe(
+      (event) => {
+        this.erroEndereco = event;
+      }
+    );
+
+    this.contatoForm = this.formBuilder.group({
+      nome: ['', [Validators.required]],
       telefone: ['', [Validators.required], [this.telefoneExisteService.telefoneExiste()]],
       email: ['', [Validators.required, Validators.email]],
       whatsapp: [true]
@@ -46,10 +67,18 @@ export class NovoContatoComponent implements OnInit {
   }
 
   cadastraContato() {
-    let novoContato = this.novoContatoForm.getRawValue();
-    this.contatosService.cadastraContato(this.agenda_id, novoContato).subscribe(() => {
-      this.router.navigate(['']);
-    });
+    if (this.contatoForm.valid) {
+      if (this.enderecos.length) {
+        const novoContato = this.contatoForm.getRawValue();
+        this.contatosService.cadastraContato(this.agenda_id, novoContato).subscribe(() => {
+          this.router.navigate(['contatos']);
+        });
+      } else {
+        this.erroEndereco = true;
+      }
+    } else {
+      this.modalService.aparecer();
+    }
   }
 
 }

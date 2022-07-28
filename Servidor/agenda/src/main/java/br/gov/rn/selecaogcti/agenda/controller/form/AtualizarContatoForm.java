@@ -1,6 +1,5 @@
 package br.gov.rn.selecaogcti.agenda.controller.form;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -10,13 +9,13 @@ import br.gov.rn.selecaogcti.agenda.repository.ContatoRepository;
 
 public class AtualizarContatoForm {
 
-	@NotNull @NotEmpty @Length(max = 255)
+	@NotNull @Length(max = 255)
 	private String nome;
 	
-	@NotNull @NotEmpty @Length(min = 11, max = 11)
+	@NotNull @Length(min = 11, max = 11)
 	private String telefone;
 	
-	@NotNull @NotEmpty @Length(max = 50)
+	@NotNull @Length(max = 50)
 	private String email;
 
 	public String getNome() {

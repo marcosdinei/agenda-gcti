@@ -7,6 +7,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AutenticacaoModule } from './autenticacao/autenticacao.module';
+import { ModalEnderecoComponent } from './componentes/modal-endereco/modal-endereco.component';
 
 @NgModule({
   declarations: [

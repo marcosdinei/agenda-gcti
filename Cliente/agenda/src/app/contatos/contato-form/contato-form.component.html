@@ -1,0 +1,69 @@
+<form [formGroup]="contatoForm">
+
+  <div class="field">
+    <label class="label is-large">{{ tipoForm }}</label>
+  </div>
+
+  <div class="field">
+    <label class="label">Nome</label>
+    <div class="control">
+      <input class="input" type="text" name="nome" formControlName="nome" placeholder="Nome do Contato">
+      <app-mensagem *ngIf="contatoForm.get('nome')?.errors &&
+        contatoForm.get('nome')?.touched" mensagem="Informe o nome"></app-mensagem>
+    </div>
+  </div>
+
+  <div class="columns">
+
+    <div class="column is-9">
+      <div class="field">
+        <label class="label">Telefone</label>
+        <div class="control">
+          <input class="input" type="text" name="telefone" formControlName="telefone" mask="(00)00000-0000" placeholder="(99)99999-9999">
+          <app-mensagem *ngIf="contatoForm.get('telefone')?.errors?.['required'] &&
+            contatoForm.get('telefone')?.touched" mensagem="Informe o telefone"></app-mensagem>
+          <app-mensagem *ngIf="contatoForm.get('telefone')?.errors?.['telefone'] &&
+            contatoForm.get('telefone')?.touched" mensagem="Telefone já cadastrado"></app-mensagem>
+        </div>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="field">
+        <label class="label">WhatsApp</label>
+        <div class="control">
+          <div class="select">
+            <select name="whatsapp" formControlName="whatsapp">
+              <option value="true">Sim</option>
+              <option value="false">Não</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="field">
+    <label class="label">Email</label>
+    <div class="control">
+      <input class="input" type="text" name="email" formControlName="email" placeholder="exemplo@email.com">
+      <app-mensagem *ngIf="contatoForm.get('email')?.errors?.['required'] &&
+        contatoForm.get('email')?.touched" mensagem="Informe o email"></app-mensagem>
+      <app-mensagem *ngIf="contatoForm.get('email')?.errors?.['email'] &&
+        contatoForm.get('email')?.touched" mensagem="Email inválido"></app-mensagem>
+    </div>
+  </div>
+
+  <ng-content></ng-content>
+
+</form>
+
+<app-modal #erro>
+  <div class="modal-content">
+    <div class="box">
+      Preencha os campos corretamente!
+    </div>
+    <button class="modal-close is-large" (click)="erro.toggle()"></button>
+  </div>
+</app-modal>

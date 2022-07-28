@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { Endereco, Enderecos } from '../endereco';
+import { ModalEnderecoService } from './../../../componentes/modal-endereco/modal-endereco.service';
 import { EnderecosService } from './../enderecos.service';
 
 @Component({
@@ -10,11 +12,17 @@ import { EnderecosService } from './../enderecos.service';
 })
 export class NovoEnderecoComponent implements OnInit {
 
-  novoEnderecoForm!: FormGroup;
-  enderecos: Array<any> = [];
+  enderecoForm!: FormGroup;
+  enderecos: Enderecos = [];
   contato_id!: number;
+  mostraMsgErro: boolean = false;
+  @Input() erroEndereco!: boolean;
 
-  constructor(private formBuilder: FormBuilder, private enderecosService: EnderecosService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private enderecosService: EnderecosService,
+    private modalEnderecoService: ModalEnderecoService
+  ) { }
 
   ngOnInit(): void {
     this.enderecosService.eventContatoId.subscribe(
@@ -23,7 +31,7 @@ export class NovoEnderecoComponent implements OnInit {
         this.cadastraEnderecos();
       }
     );
-    this.novoEnderecoForm = this.formBuilder.group({
+    this.enderecoForm = this.formBuilder.group({
       rua: ['', [Validators.required]],
       bairro: ['', [Validators.required]],
       numero: ['', [Validators.required]],
@@ -32,9 +40,21 @@ export class NovoEnderecoComponent implements OnInit {
     });
   }
 
-  guardaEndereco() {
-    let novoEndereco = this.novoEnderecoForm.getRawValue();
-    this.enderecos.push(novoEndereco);
+  removeEndereco(enderecoRemovido: Endereco) {
+    const index = this.enderecos.indexOf(enderecoRemovido);
+    this.enderecos.splice(index, 1);
+    this.enderecosService.listaEnderecos(this.enderecos);
+  }
+
+  salvaEndereco() {
+    if (this.enderecoForm.valid) {
+      const novoEndereco = this.enderecoForm.getRawValue();
+      this.enderecos.push(novoEndereco);
+      this.modalEnderecoService.desaparecer();
+      this.enderecosService.listaEnderecos(this.enderecos);
+    } else {
+      this.mostraMsgErro = true;
+    }
   }
 
   cadastraEnderecos() {

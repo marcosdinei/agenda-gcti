@@ -26,7 +26,7 @@ import br.gov.rn.selecaogcti.agenda.repository.ContatoRepository;
 import br.gov.rn.selecaogcti.agenda.repository.EnderecoRepository;
 
 @RestController
-@RequestMapping("/enderecos/{contato_id}")
+@RequestMapping("/enderecos")
 public class EndedrecoController {
 
 	@Autowired
@@ -35,7 +35,7 @@ public class EndedrecoController {
 	@Autowired
 	private ContatoRepository contatoRepository;
 	
-	@GetMapping
+	@GetMapping("/{contato_id}")
 	public List<EnderecoDto> listarEnderecos(@PathVariable Long contato_id) {
 		
 		Contato contato = contatoRepository.findById(contato_id).get();
@@ -44,7 +44,7 @@ public class EndedrecoController {
 		return EnderecoDto.converter(enderecos);
 	}
 	
-	@PostMapping
+	@PostMapping("/{contato_id}")
 	@Transactional
 	public ResponseEntity<EnderecoDto> adicionarEndereco(@PathVariable Long contato_id, @RequestBody @Valid EnderecoForm enderecoForm, UriComponentsBuilder uriBuilder) {
 		

@@ -1,53 +1,10 @@
-<form *ngIf="editaContatoForm" [formGroup]="editaContatoForm" (submit)="editaContato()">
+<app-contato-form *ngIf="contatoForm" [contatoForm]="contatoForm" [tipoForm]="tipoForm">
 
-  <div class="field">
-    <label class="label is-large">Editar Contato</label>
-  </div>
-
-  <div class="field">
-    <label class="label">Nome</label>
-    <div class="control">
-      <input class="input" type="text" name="nome" formControlName="nome">
-    </div>
-  </div>
-
-  <div class="columns">
-
-    <div class="column is-half">
-      <div class="field">
-        <label class="label">Telefone</label>
-        <div class="control">
-          <input class="input" type="text" name="telefone" formControlName="telefone">
-        </div>
-      </div>
-    </div>
-
-    <div class="column">
-      <div class="field">
-        <label class="label">WhatsApp</label>
-        <div class="control">
-          <div class="select">
-            <select name="whatsapp" formControlName="whatsapp">
-              <option value="true">Sim</option>
-              <option value="false">Não</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="field">
-    <label class="label">Email</label>
-    <div class="control">
-      <input class="input" type="text" name="email" formControlName="email">
-    </div>
-  </div>
+  <app-editar-endereco [erroEndereco]="erroEndereco"></app-editar-endereco>
 
   <div class="field is-grouped is-grouped-centered">
     <p class="control">
-      <button class="button is-info" type="submit">
+      <button class="button is-info" (click)="editaContato()">
         Editar
       </button>
     </p>
@@ -55,20 +12,19 @@
       <button class="button is-info" (click)="excluir.toggle()">
         Excluir
       </button>
-
-      <app-modal #excluir>
-        <div class="modal-card">
-          <section class="modal-card-body">
-            Tem certeza que deseja excluir o contato?
-          </section>
-          <footer class="modal-card-foot">
-            <button class="button is-info" (click)="excluiContato(); excluir.toggle()">Sim</button>
-            <button class="button" (click)="excluir.toggle()">Não</button>
-          </footer>
-        </div>
-      </app-modal>
-
     </p>
   </div>
 
-</form>
+  <app-modal #excluir>
+    <div class="modal-card">
+      <section class="modal-card-body">
+        Tem certeza que deseja excluir o contato?
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-info" (click)="excluiContato(); excluir.toggle()">Sim</button>
+        <button class="button" (click)="excluir.toggle()">Não</button>
+      </footer>
+    </div>
+  </app-modal>
+
+</app-contato-form>

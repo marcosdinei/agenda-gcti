@@ -1,61 +1,6 @@
-<form [formGroup]="novoContatoForm">
+<app-contato-form [contatoForm]="contatoForm" [tipoForm]="tipoForm">
 
-  <div class="field">
-    <label class="label is-large">Novo Contato</label>
-  </div>
-
-  <div class="field">
-    <label class="label">Nome</label>
-    <div class="control">
-      <input class="input" type="text" name="nome" formControlName="nome" placeholder="Nome do Contato">
-      <app-mensagem *ngIf="novoContatoForm.get('nome')?.errors &&
-        novoContatoForm.get('nome')?.touched" mensagem="Informe o nome"></app-mensagem>
-    </div>
-  </div>
-
-  <div class="columns">
-
-    <div class="column is-9">
-      <div class="field">
-        <label class="label">Telefone</label>
-        <div class="control">
-          <input class="input" type="text" name="telefone" formControlName="telefone" mask="(00)00000-0000" placeholder="(99)99999-9999">
-          <app-mensagem *ngIf="novoContatoForm.get('telefone')?.errors?.['required'] &&
-            novoContatoForm.get('telefone')?.touched" mensagem="Informe o telefone"></app-mensagem>
-          <app-mensagem *ngIf="novoContatoForm.get('telefone')?.errors?.['telefone'] &&
-            novoContatoForm.get('telefone')?.touched" mensagem="Telefone já cadastrado"></app-mensagem>
-        </div>
-      </div>
-    </div>
-
-    <div class="column">
-      <div class="field">
-        <label class="label">WhatsApp</label>
-        <div class="control">
-          <div class="select">
-            <select name="whatsapp" formControlName="whatsapp">
-              <option value="true">Sim</option>
-              <option value="false">Não</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="field">
-    <label class="label">Email</label>
-    <div class="control">
-      <input class="input" type="text" name="email" formControlName="email" placeholder="exemplo@email.com">
-      <app-mensagem *ngIf="novoContatoForm.get('email')?.errors?.['required'] &&
-        novoContatoForm.get('email')?.touched" mensagem="Informe o email"></app-mensagem>
-      <app-mensagem *ngIf="novoContatoForm.get('email')?.errors?.['email'] &&
-        novoContatoForm.get('email')?.touched" mensagem="Email inválido"></app-mensagem>
-    </div>
-  </div>
-
-  <app-novo-endereco></app-novo-endereco>
+  <app-novo-endereco [erroEndereco]="erroEndereco"></app-novo-endereco>
 
   <div class="field is-grouped is-grouped-centered">
     <p class="control">
@@ -64,5 +9,4 @@
       </button>
     </p>
   </div>
-
-</form>
+</app-contato-form>
