@@ -1,11 +1,9 @@
-<div *ngIf="enderecos$ | async as enderecos">
-  <app-endereco-form
-    [enderecoForm]="enderecoForm"
-    [enderecos]="enderecos"
-    [mostraMsgErro]="mostraMsgErro"
-    [contato_id]="contato_id"
-    [removeEndereco]="removeEndereco"
-    [salvaEndereco]="salvaEndereco"
-    [erroEndereco]="erroEndereco"
-  ></app-endereco-form>
-</div>
+<app-endereco-form
+  [enderecoForm]="enderecoForm"
+  [enderecos]="enderecos"
+  [mostraMsgErro]="mostraMsgErro"
+  [contato_id]="contato_id"
+  [removeEndereco]="removeEndereco"
+  [salvaEndereco]="salvaEndereco"
+  [erroEndereco]="erroEndereco"
+></app-endereco-form>

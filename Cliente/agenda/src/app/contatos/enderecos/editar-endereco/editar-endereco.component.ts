@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, tap } from 'rxjs';
 
 import { Endereco, Enderecos } from '../endereco';
 import { EnderecosService } from '../enderecos.service';
@@ -15,7 +15,7 @@ import { ModalEnderecoService } from './../../../componentes/modal-endereco/moda
 export class EditarEnderecoComponent implements OnInit {
 
   enderecoForm!: FormGroup;
-  enderecos$!: Observable<Enderecos>;
+  enderecos: Enderecos = [];
   contato_id!: number;
   mostraMsgErro: boolean = false;
   @Input() erroEndereco: boolean = false;
@@ -24,17 +24,15 @@ export class EditarEnderecoComponent implements OnInit {
     private formBuilder: FormBuilder,
     private enderecosService: EnderecosService,
     private modalEnderecoService: ModalEnderecoService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.contato_id = this.activatedRoute.snapshot.params['contato_id'];
-    this.enderecos$ = this.enderecosService.listaDoContato(this.contato_id);
-
-    this.enderecos$.subscribe(enderecos => {
+    this.enderecosService.listaDoContato(this.contato_id).subscribe(enderecos => {
+      this.enderecos = enderecos;
       this.enderecosService.listaEnderecos(enderecos);
-    })
+    });
 
     this.enderecoForm = this.formBuilder.group({
       rua: ['', [Validators.required]],
@@ -45,16 +43,24 @@ export class EditarEnderecoComponent implements OnInit {
     });
   }
 
-  removeEndereco(enderecoRemovido: Endereco) { //RESOLVER DESAPARECER ENDEREÇO EXCLUÍDO
+  removeEndereco(enderecoRemovido: Endereco) {
     this.enderecosService.excluiEndereco(enderecoRemovido.id).subscribe(() => {
-      this.router.navigate(['contatos/editar', this.contato_id]);
+      this.enderecosService.listaDoContato(this.contato_id).subscribe(enderecos => {
+        this.enderecosService.listaEnderecos(enderecos);
+        this.enderecos = enderecos;
+      });
     });
   }
 
-  salvaEndereco() { //RESOLVER APARECER NOVO ENDEREÇO CADASTRADO
+  salvaEndereco() {
     if (this.enderecoForm.valid) {
       const novoEndereco = this.enderecoForm.getRawValue();
-      this.enderecosService.cadastraEndereco(this.contato_id, novoEndereco).subscribe();
+      this.enderecosService.cadastraEndereco(this.contato_id, novoEndereco).subscribe(() => {
+        this.enderecosService.listaDoContato(this.contato_id).subscribe(enderecos => {
+          this.enderecosService.listaEnderecos(enderecos);
+          this.enderecos = enderecos;
+        });
+      });
       this.modalEnderecoService.desaparecer();
     } else {
       this.mostraMsgErro = true;
